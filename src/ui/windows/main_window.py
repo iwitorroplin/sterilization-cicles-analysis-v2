@@ -73,6 +73,8 @@ class MainWindow(QMainWindow):
         for module_name in self.module_manager.available_modules:
             self.side_nav.add_module(module_name)
 
+        self.side_nav.add_exit_action()
+
         if self.module_manager.available_modules:
             initial_module = self.module_manager.available_modules[0]
             self.side_nav.set_active_module(initial_module)
