@@ -1,4 +1,6 @@
-from src.app import run_app
+# launcher para iniciar app
+
+from src.main import main
 
 if __name__ == "__main__":
-    run_app()
+    main()
