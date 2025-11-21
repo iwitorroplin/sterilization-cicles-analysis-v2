@@ -1,0 +1,45 @@
+# ======================================
+# 🔹 ENTORNO PYTHON
+# ======================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.pyproj
+*.log
+
+# Entorno virtual local
+.venv/
+venv/
+env/
+ENV/
+*.env
+.env.*
+
+
+# ======================================
+# 🔹 EDITORES Y SISTEMAS
+# ======================================
+# Visual Studio Code
+.vscode/
+# JetBrains (PyCharm, etc.)
+.idea/
+# Archivos de backup temporales
+*.bak
+*.tmp
+*.swp
+*~
+# Archivos de sistema (Windows / macOS)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# ======================================
+# 🔹 COMPILACIÓN / BINARIOS
+# ======================================
+build/
+dist/
+*.spec
+
