@@ -67,8 +67,12 @@ class GeneralTab(QWidget):
         work_area_layout.setSpacing(Style.config.Layout.MAIN_SPACING)
 
         work_area_layout.addWidget(self._create_printer_area())
+        work_area_layout.addWidget(self._create_ferlo_dir_area())
         work_area_layout.addWidget(self._create_raw_data_area())
         work_area_layout.addWidget(self._create_process_data_area())
+        work_area_layout.addWidget(self._create_start_temperature_c())
+        work_area_layout.addWidget(self._create_auto_cycle_detection())
+        work_area_layout.addWidget(self._create_bad_value_area())
         work_area_layout.addStretch()
         work_area_layout.addWidget(self._create_button_area())
 
@@ -84,30 +88,27 @@ class GeneralTab(QWidget):
 
     def initialize(self):
         """Carga la configuración básica en los campos de la pestaña."""
-        loaded_config = AppSettings.get_basic_config()
-        
-        # COnfiguracion GENERAL
-        general_config = loaded_config.get(self.GENERAL_KEY, {})
-        
-        self.current_config = deepcopy(loaded_config)
-        self.last_loaded_config = deepcopy(loaded_config)
+        loaded_config = AppSettings.get_basic_config() or {}
 
-        printer = general_config.get(
-            "printer",
-            self.default_config["general"]["printer"]
-            )
-        ferlo_dir = general_config.get(
-            "data_ferlo_dir",
-            self.default_config["·general"]["data_ferlo_dir"]
-            )
-        raw_dir = general_config.get(
-            "raw_data_ferlo_dir",
-            self.default_config["general"]["raw_data_ferlo_dir"]
-            )
-        process_dir = general_config.get(
-            "process_data_ferlo_dir",
-            self.default_config["general"]["process_data_ferlo_dir"]
-            )
+        general_config = {
+            **self.default_config[self.GENERAL_KEY],
+            **loaded_config.get(self.GENERAL_KEY, {}),
+        }
+        cycle_config = {
+            **self.default_config[self.CYCLE_KEY],
+            **loaded_config.get(self.CYCLE_KEY, {}),
+        }
+
+        self.current_config = {
+            self.GENERAL_KEY: deepcopy(general_config),
+            self.CYCLE_KEY: deepcopy(cycle_config),
+        }
+        self.last_loaded_config = deepcopy(self.current_config)
+
+        printer = general_config.get("printer")
+        ferlo_dir = general_config.get("data_ferlo_dir")
+        raw_dir = general_config.get("raw_data_ferlo_dir")
+        process_dir = general_config.get("process_data_ferlo_dir")
 
         index = self.printer_combo.findText(printer)
         self.printer_combo.setCurrentIndex(index if index >= 0 else 0)
@@ -116,22 +117,12 @@ class GeneralTab(QWidget):
         self.process_path_edit.setText(process_dir)
 
         # Configuracion CYCLE DETECTOR
-        cycle_config = loaded_config.get(self.CYCLE_KEY, {})
-        
-        temp_c = cycle_config.get(
-            "temperature",
-            self.default_config["cycle_detector"]["temperature"]
-            )
-        auto = cycle_config.get(
-            "auto",
-            self.default_config["cycle_detector"]["auto"]
-            )
-        bad_value = cycle_config.get(
-            "bad_value",
-            self.default_config["cycle_detector"]["bad_value"]
-        )
-        self.temp_c_edit.setText(temp_c)
-        self.auto_cycle_checkbox.setAttribute(auto)
+        temp_c = cycle_config.get("temperature_cycle_detector")
+        auto_detection = cycle_config.get("auto_cycle_detection")
+        bad_value = cycle_config.get("bad_value_cycle_detector")
+
+        self.temp_c_edit.setText(str(temp_c))
+        self.auto_cycle_checkbox.setChecked(bool(auto_detection))
         self.bad_value_edit.setText(bad_value)
 
     def _create_printer_area(self):
@@ -173,7 +164,7 @@ class GeneralTab(QWidget):
 
         browse_btn = QPushButton("...")
         browse_btn.setFixedSize(40, 40)
-        browse_btn.clicked.connect(self.browse_raw_path)
+        browse_btn.clicked.connect(self.browse_ferlo_dir)
         layout.addWidget(browse_btn)
 
         Style.input.apply(self.ferlo_dir_edit)
@@ -292,8 +283,6 @@ class GeneralTab(QWidget):
 
         container.setLayout(layout)
         return container
-        
-        return
     
     def _create_button_area(self):
         container = QWidget()
@@ -337,6 +326,13 @@ class GeneralTab(QWidget):
         )
         if directory:
             self.raw_path_edit.setText(directory)
+
+    def browse_ferlo_dir(self):
+        directory = QFileDialog.getExistingDirectory(
+            self, "Seleccionar directorio principal", self.ferlo_dir_edit.text()
+        )
+        if directory:
+            self.ferlo_dir_edit.setText(directory)
 
     def browse_process_path(self):
         directory = QFileDialog.getExistingDirectory(

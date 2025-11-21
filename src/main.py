@@ -15,7 +15,7 @@ from PySide6.QtWidgets import QApplication
 
 from src.core.app_settings import AppSettings
 from src.core.config import APP_NAME, APP_VERSION
-from src.ui.widgets.loading_dialog import LoadingDialog
+from src.core.loading_manager import LoadingManager
 from src.ui.windows.main_window import MainWindow
 from src.style import Style
 
@@ -37,21 +37,26 @@ def load_basic_configuration() -> dict:
 def main():
     app = QApplication(sys.argv)
 
-    loading_dialog = LoadingDialog(text="Cargando variables básicas...", show_progress=False)
-    loading_dialog.show()
-    QApplication.processEvents()
+    window = None
 
-    basic_config = load_basic_configuration()
-    AppSettings.set_basic_config(basic_config)
+    def load_basic_settings():
+        basic_config = load_basic_configuration()
+        AppSettings.set_basic_config(basic_config)
 
-    loading_dialog.fade_out_and_close()
+    def launch_application():
+        nonlocal window
+        # Aplicar estilo global y nombre de la aplicación
+        app.setApplicationDisplayName(f"{APP_NAME} v{APP_VERSION}")
+        Style.apply_global(app)
 
-    # Aplicar estilo global y nombre de la aplicación
-    app.setApplicationDisplayName(f"{APP_NAME} v{APP_VERSION}")
-    Style.apply_global(app)
+        window = MainWindow()
+        window.show()
 
-    window = MainWindow()
-    window.show()
+    loading_manager = LoadingManager()
+    loading_manager.start_loading(
+        [("Cargando variables básicas...", load_basic_settings, [])],
+        on_finished=launch_application,
+    )
 
     sys.exit(app.exec())
 
