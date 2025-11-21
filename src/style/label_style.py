@@ -21,7 +21,7 @@ def apply_label_style(label: QLabel, variant: str = "normal"):
         "normal": {
             "color": Colors.Label.BODY,
             "font_size": StyleConfig.Font.SIZE_BASE,
-            "bold": StyleConfig.Font.WEIGHT_NORMAL,
+            "bold": StyleConfig.Font.WEIGHT_BOLD,
         },
         "subtle": {
             "color": Colors.Label.SUBTLE,

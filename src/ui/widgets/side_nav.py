@@ -22,10 +22,6 @@ class SidebarWidget(QWidget):
         layout.setContentsMargins(5, 10, 5, 10)
         layout.setSpacing(8)
 
-        title = QLabel("Navegación")
-        Style.label.title(title)
-        layout.addWidget(title)
-
         layout.addStretch()
         self.setLayout(layout)
         Style.widget.apply(self)

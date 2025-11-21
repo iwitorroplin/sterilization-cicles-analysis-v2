@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
 )
 
 from src.core.app_settings import AppSettings
+
 from src.style import Style
 
 
@@ -50,7 +51,8 @@ class GeneralTab(QWidget):
         self.last_loaded_config = deepcopy(self.default_config)
 
         self._setup_ui()
-        self.initialize()
+        self._initialize()
+
 
     # ------------------------------------------------------
     # UI
@@ -71,8 +73,8 @@ class GeneralTab(QWidget):
         work_area_layout.addWidget(self._create_raw_data_area())
         work_area_layout.addWidget(self._create_process_data_area())
         work_area_layout.addWidget(self._create_start_temperature_c())
-        work_area_layout.addWidget(self._create_auto_cycle_detection())
         work_area_layout.addWidget(self._create_bad_value_area())
+        work_area_layout.addWidget(self._create_auto_cycle_detection())
         work_area_layout.addStretch()
         work_area_layout.addWidget(self._create_button_area())
 
@@ -86,7 +88,7 @@ class GeneralTab(QWidget):
     # Lógica
     # ------------------------------------------------------
 
-    def initialize(self):
+    def _initialize(self):
         """Carga la configuración básica en los campos de la pestaña."""
         loaded_config = AppSettings.get_basic_config() or {}
 
@@ -123,8 +125,8 @@ class GeneralTab(QWidget):
 
         self.temp_c_edit.setText(str(temp_c))
         self.auto_cycle_checkbox.setChecked(bool(auto_detection))
-        self.bad_value_edit.setText(bad_value)
-
+        self.bad_value_edit.setText(bad_value)    
+    
     def _create_printer_area(self):
         """Crea el área de selección de impresora"""
         container = QWidget()
@@ -135,10 +137,11 @@ class GeneralTab(QWidget):
         layout.setSpacing(Style.config.Layout.BUTTON_SPACING)
 
         lbl_printer = QLabel("Impresora:")
-        layout.addWidget(lbl_printer)
-
+        
         self.printer_combo = QComboBox()
         self.printer_combo.addItems(["Predeterminada", "Impresora 1", "Impresora 2"])
+        
+        layout.addWidget(lbl_printer)
         layout.addWidget(self.printer_combo)
 
         Style.label.apply(lbl_printer, "normal")
@@ -156,18 +159,20 @@ class GeneralTab(QWidget):
         layout.setSpacing(Style.config.Layout.BUTTON_SPACING)
 
         ferlo_dir_lbl = QLabel("Directorio principal:")
-        layout.addWidget(ferlo_dir_lbl)
 
         self.ferlo_dir_edit = QLineEdit()
         self.ferlo_dir_edit.setPlaceholderText("Selecciona el directorio principal...")
-        layout.addWidget(self.ferlo_dir_edit)
 
         browse_btn = QPushButton("...")
-        browse_btn.setFixedSize(40, 40)
         browse_btn.clicked.connect(self.browse_ferlo_dir)
-        layout.addWidget(browse_btn)
 
+        layout.addWidget(ferlo_dir_lbl)
+        layout.addWidget(self.ferlo_dir_edit)
+        layout.addWidget(browse_btn)
+        
+        Style.label.apply(ferlo_dir_lbl)
         Style.input.apply(self.ferlo_dir_edit)
+        Style.button.terciary(browse_btn)
 
         container.setLayout(layout)
         return container
@@ -180,19 +185,23 @@ class GeneralTab(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(Style.config.Layout.BUTTON_SPACING)
 
-        lbl_raw = QLabel("Directorio RAW:")
-        layout.addWidget(lbl_raw)
-
+        raw_lbl = QLabel("Directorio RAW:")
+        
         self.raw_path_edit = QLineEdit()
-        self.raw_path_edit.setPlaceholderText("Selecciona el directorio de datos RAW...")
-        layout.addWidget(self.raw_path_edit)
+        self.raw_path_edit.setPlaceholderText(
+            "Selecciona el directorio de datos RAW..."
+            )
 
         browse_btn = QPushButton("...")
-        browse_btn.setFixedSize(40, 40)
         browse_btn.clicked.connect(self.browse_raw_path)
+
+        layout.addWidget(raw_lbl)
+        layout.addWidget(self.raw_path_edit)
         layout.addWidget(browse_btn)
 
+        Style.label.apply(raw_lbl)
         Style.input.apply(self.raw_path_edit)
+        Style.button.terciary(browse_btn)
 
         container.setLayout(layout)
         return container
@@ -205,23 +214,24 @@ class GeneralTab(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(Style.config.Layout.BUTTON_SPACING)
 
-        lbl_process = QLabel("Directorio Process:")
-        lbl_process.setFixedWidth(130)
-        layout.addWidget(lbl_process)
-
+        process_lbl = QLabel("Directorio Process:")
+        
         self.process_path_edit = QLineEdit()
         self.process_path_edit.setPlaceholderText(
             "Selecciona el directorio donde guardar procesados..."
-        )
-        layout.addWidget(self.process_path_edit)
-
+            )
+       
         browse_btn = QPushButton("...")
-        browse_btn.setFixedSize(40, 40)
         browse_btn.clicked.connect(self.browse_process_path)
+
+        layout.addWidget(process_lbl)
+        layout.addWidget(self.process_path_edit)
         layout.addWidget(browse_btn)
-
+        
+        Style.label.apply(process_lbl)
         Style.input.apply(self.process_path_edit)
-
+        Style.button.terciary(browse_btn)
+        
         container.setLayout(layout)
         return container
     
@@ -233,15 +243,18 @@ class GeneralTab(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(Style.config.Layout.BUTTON_SPACING)
 
-        label = QLabel("Temperatura inicio ciclos:")
-        Style.label.apply(label)
-        layout.addWidget(label)
-
+        temp_c_label = QLabel("Temperatura inicio ciclos:")
+        
         self.temp_c_edit = QLineEdit()
         self.temp_c_edit.setPlaceholderText("Ejemplo: 70")
-        Style.input.apply(self.temp_c_edit)
+        
+        layout.addWidget(temp_c_label)
         layout.addWidget(self.temp_c_edit)
-
+        
+        Style.label.apply(temp_c_label)
+        Style.input.apply(self.temp_c_edit)
+        
+        container.setLayout(layout)
         return container
 
     def _create_auto_cycle_detection(self):
@@ -253,16 +266,16 @@ class GeneralTab(QWidget):
         layout.setSpacing(Style.config.Layout.BUTTON_SPACING)
         
         label = QLabel("Detección automática de ciclos")
-        Style.label.apply(label)
-        layout.addWidget(label)
-
-        self.auto_cycle_checkbox = QCheckBox("")
-        layout.addWidget(self.auto_cycle_checkbox)
-        Style.checkbox.apply(self.auto_cycle_checkbox)
-
         
-        return container
-    
+        self.auto_cycle_checkbox = QCheckBox("")
+        
+        layout.addWidget(label)
+        layout.addWidget(self.auto_cycle_checkbox)
+        
+        Style.label.apply(label)
+        Style.checkbox.apply(self.auto_cycle_checkbox)
+        
+        return container    
     
     def _create_bad_value_area(self):
         container = QWidget()
@@ -273,12 +286,15 @@ class GeneralTab(QWidget):
         layout.setSpacing(Style.config.Layout.BUTTON_SPACING)
 
         bad_value_lbl = QLabel("texto de error en los datos:")
-        layout.addWidget(bad_value_lbl)
 
         self.bad_value_edit = QLineEdit()
-        self.bad_value_edit.setPlaceholderText("Escribe el error dado en las celdas. Ejemplo: <<<<<<<< ")
+        self.bad_value_edit.setPlaceholderText(
+            "Escribe el error dado en las celdas. Ejemplo: <<<<<<<< ")
+        
+        layout.addWidget(bad_value_lbl)
         layout.addWidget(self.bad_value_edit)
 
+        Style.label.apply(bad_value_lbl)
         Style.input.apply(self.bad_value_edit)
 
         container.setLayout(layout)
@@ -294,17 +310,12 @@ class GeneralTab(QWidget):
         layout.setSpacing(button_layout_config["spacing"])
 
         self.restore_btn = QPushButton("Restaurar")
-        self.restore_btn.setFixedHeight(40)
-        self.restore_btn.setMinimumWidth(80)
         # self.restore_btn.clicked.connect(self.restore_defaults)
 
         self.undo_btn = QPushButton("Deshacer")
-        self.undo_btn.setFixedHeight(40)
-        self.undo_btn.setMinimumWidth(80)
         # self.undo_btn.clicked.connect(self.undo_changes)
 
         self.save_btn = QPushButton("Guardar")
-        self.save_btn.setFixedHeight(40)
         # self.save_btn.clicked.connect(self.save_config)
 
         layout.addWidget(self.restore_btn)
@@ -317,8 +328,6 @@ class GeneralTab(QWidget):
 
         container.setLayout(layout)
         return container
-
-
 
     def browse_raw_path(self):
         directory = QFileDialog.getExistingDirectory(

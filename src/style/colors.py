@@ -60,6 +60,10 @@ class Colors:
         CHECKED = "#3B82F6"
         BORDER = "#64748B"
         TEXT = "#FFFFFF"
+        
+        DISABLED = "#2b2b2b"
+        DISABLED_TEXT = "#7c7c7c"
+        DISABLED_BORDER = "#3d3d3d"
 
     class ButtonSecondary:
         BACKGROUND = "#463355"
@@ -68,6 +72,22 @@ class Colors:
         CHECKED = "#A23BF6"
         BORDER = "#7D648B"
         TEXT = "#FFFFFF"
+        
+        DISABLED = "#2b2b2b"
+        DISABLED_TEXT = "#7c7c7c"
+        DISABLED_BORDER = "#3d3d3d"
+        
+    class ButtonTertiary :
+        BACKGROUND = "#1D143A"
+        HOVER = "#544769"
+        PRESSED = "#0E1DE9"
+        CHECKED = "#573BF6"
+        BORDER = "#70648B"
+        TEXT = "#FFFFFF"
+        
+        DISABLED = "#2b2b2b"
+        DISABLED_TEXT = "#7c7c7c"
+        DISABLED_BORDER = "#3d3d3d"
 
     class ButtonDanger:
         BACKGROUND = "#B91C1C"

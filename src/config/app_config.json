@@ -6,8 +6,8 @@
     "process_data_ferlo_dir": "C:/Users/Usuario/Desktop/ferlo/process"
   },
   "cycle_detector": {
-    "temperature_cycle_detector": 70,
-    "auto_cycle_detection": true,
-    "bad_value_cycle_detector": "<<<<<<<<"
+    "temperature": 70,
+    "auto": true,
+    "bad_value": "<<<<<<<<"
   }
 }

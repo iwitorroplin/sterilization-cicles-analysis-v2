@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget, QTabWidget
 
 from src.style import Style
 from .tabs.general_tab import GeneralTab
-# from .tabs.programs_tab import ProgramsTab
+from .tabs.programs_tab import ProgramsTab
 
 class ModuleView(QWidget):
     def __init__(self):
@@ -27,8 +27,7 @@ class ModuleView(QWidget):
 
         # Añadir pestañas desde clases separadas
         self.tabs.addTab(GeneralTab(), "General")
-
-        # self.tabs.addTab(ProgramsTab(), "PROGRAMAS")
+        self.tabs.addTab(ProgramsTab(), "PROGRAMAS")
 
         layout.addWidget(title)
         layout.addWidget(self.tabs)

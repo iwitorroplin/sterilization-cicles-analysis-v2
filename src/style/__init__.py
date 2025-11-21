@@ -1,7 +1,12 @@
 from .colors import Colors
 from .config import StyleConfig
 from .theme import Theme, get_app_style
-from .button_style import apply_button_1_style, apply_button_2_style, apply_button_exit_style
+from .button_style import (
+    apply_button_1_style,
+    apply_button_2_style,
+    apply_button_3_style,
+    apply_button_exit_style
+)
 from .checkbox_style import apply_checkbox_style
 from .combobox_style import apply_combobox_style
 from .groupbox_style import apply_groupbox_style
@@ -22,6 +27,7 @@ class Style:
     class button:
         primary = apply_button_1_style
         secondary = apply_button_2_style
+        terciary = apply_button_3_style
         exit = apply_button_exit_style
 
     class input:
