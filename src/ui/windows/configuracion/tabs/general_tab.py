@@ -1,5 +1,7 @@
 # src/ui/mod_configuracion/general_tab.py
 
+from copy import deepcopy
+
 from PySide6.QtWidgets import (
     QFileDialog,
     QLabel,
@@ -13,6 +15,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from src.core.app_settings import AppSettings
 from src.style import Style
 
 
@@ -25,7 +28,7 @@ class GeneralTab(QWidget):
         QWidget.__init__(self)
 
         # Valores por defecto
-        self.default_config = {  
+        self.default_config = {
             "general": {
                 "printer": "Predeterminada",
                 "data_ferlo_dir": "C:/Users/Usuario/Desktop/ferlo",
@@ -41,8 +44,8 @@ class GeneralTab(QWidget):
 
 
         # Copias internas
-        self.current_config = self.default_config.copy()
-        self.last_loaded_config = self.default_config.copy()
+        self.current_config = deepcopy(self.default_config)
+        self.last_loaded_config = deepcopy(self.default_config)
 
         self._setup_ui()
         self.initialize()
@@ -92,6 +95,29 @@ class GeneralTab(QWidget):
 
         container.setLayout(layout)
         return container
+
+    # ------------------------------------------------------
+    # Lógica
+    # ------------------------------------------------------
+
+    def initialize(self):
+        """Carga la configuración básica en los campos de la pestaña."""
+        loaded_config = AppSettings.get_basic_config() or deepcopy(self.default_config)
+        general_config = loaded_config.get(self.CONFIG_KEY, {})
+
+        self.current_config = deepcopy(loaded_config)
+        self.last_loaded_config = deepcopy(loaded_config)
+
+        printer = general_config.get("printer", self.default_config["general"]["printer"])
+        raw_dir = general_config.get("raw_data_ferlo_dir", self.default_config["general"]["raw_data_ferlo_dir"])
+        process_dir = general_config.get(
+            "process_data_ferlo_dir", self.default_config["general"]["process_data_ferlo_dir"]
+        )
+
+        index = self.printer_combo.findText(printer)
+        self.printer_combo.setCurrentIndex(index if index >= 0 else 0)
+        self.raw_path_edit.setText(raw_dir)
+        self.process_path_edit.setText(process_dir)
 
     def _create_raw_data_area(self):
         container = QWidget()
