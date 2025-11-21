@@ -8,6 +8,6 @@
   "cycle_detector": {
     "temperature_cycle_detector": 70,
     "auto_cycle_detection": true,
-    "bad_value": "<<<<<<<<"
+    "bad_value_cycle_detector": "<<<<<<<<"
   }
 }
