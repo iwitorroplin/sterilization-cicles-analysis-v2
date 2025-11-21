@@ -26,16 +26,18 @@ class LoadingManager:
         self.current_process = 0
         self.processes = []
     
-    def start_loading(self, processes):
+    def start_loading(self, processes, on_finished=None):
         """
         Inicia una serie de procesos de carga
-        
+
         Args:
             processes: Lista de tuplas (texto, función, args)
+            on_finished: Callback a ejecutar cuando finalizan todos los procesos
         """
         self.processes = processes
         self.current_process = 0
-        
+        self.on_finished = on_finished
+
         self.loading_dialog = LoadingDialog(self.parent)
         self.loading_dialog.show()
         self.execute_next_process()
@@ -51,6 +53,8 @@ class LoadingManager:
             self.worker_thread.start()
         else:
             self.loading_dialog.fade_out_and_close()
+            if callable(self.on_finished):
+                self.on_finished()
     
     def on_process_finished(self):
         """Se llama cuando un proceso termina"""
