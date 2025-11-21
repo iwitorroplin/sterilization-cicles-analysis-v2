@@ -16,7 +16,15 @@ from src.style import Style
 
 def main():
     app = QApplication(sys.argv)
+    
+    """
+    configuracion basica. cargar las variables del archivo src.config.app_config.json
+    """
 
+    """
+    añadir ventana de loadig diciendo cargando varialbes basicas
+    """
+    
     # Aplicar estilo global y nombre de la aplicación
     app.setApplicationDisplayName(f"{APP_NAME} v{APP_VERSION}")
     Style.apply_global(app)

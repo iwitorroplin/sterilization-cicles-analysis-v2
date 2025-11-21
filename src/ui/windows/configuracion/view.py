@@ -1,8 +1,9 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget, QTabWidget
 
 from src.style import Style
-
+from .tabs.general_tab import GeneralTab
+# from .tabs.programs_tab import ProgramsTab
 
 class ModuleView(QWidget):
     def __init__(self):
@@ -18,14 +19,21 @@ class ModuleView(QWidget):
         Style.label.title(title)
         title.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
 
-        status = QLabel("Módulo en construcción")
-        status.setAlignment(Qt.AlignCenter)
-        Style.label.subtle(status)
+        # QTabWidget
+        self.tabs = QTabWidget()
+        self.tabs.setTabPosition(QTabWidget.North)
+        self.tabs.setMovable(False)
+        self.tabs.setDocumentMode(False)
+
+        # Añadir pestañas desde clases separadas
+        self.tabs.addTab(GeneralTab(), "General")
+
+        # self.tabs.addTab(ProgramsTab(), "PROGRAMAS")
 
         layout.addWidget(title)
-        layout.addStretch()
-        layout.addWidget(status)
-        layout.addStretch()
+        layout.addWidget(self.tabs)
+        Style.tab.apply(self.tabs)
+
 
         self.setLayout(layout)
         Style.widget.apply(self)

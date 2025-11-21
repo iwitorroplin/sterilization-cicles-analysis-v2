@@ -30,7 +30,7 @@ class SidebarWidget(QWidget):
         self.setLayout(layout)
         Style.widget.apply(self)
 
-    def add_module(self, module_name: str, icon_text: str = "»"):
+    def add_module(self, module_name: str, icon_text: str = "» "):
         """Añade un módulo al sidebar."""
         btn = QPushButton(f"{icon_text} {module_name}")
         Style.button.primary(btn)
@@ -40,7 +40,7 @@ class SidebarWidget(QWidget):
         self.layout().insertWidget(self.layout().count() - 1, btn)
         self.buttons[module_name] = btn
 
-    def add_exit_action(self, icon_text: str = "⎋"):
+    def add_exit_action(self, icon_text: str = "⎋ "):
         """Añade el botón de salida al sidebar."""
         exit_label = "Salir"
         btn = QPushButton(f"{icon_text} {exit_label}")
