@@ -10,7 +10,6 @@ Secuencia de carga:
 import json
 import sys
 from pathlib import Path
-
 from PySide6.QtWidgets import QApplication
 
 from src.core.app_settings import AppSettings
