@@ -13,27 +13,27 @@ class ModuleManager:
     
     _modules_config = {
         "Dashboard": {
-            "module_path": "src.ui.mod_dashboard.view",
+            "module_path": "src.ui.windows.dashboard.view",
             "class_name": "ModuleView"
         },
         "Cargar Datos": {
-            "module_path": "src.ui.mod_cargar_datos.view", 
+            "module_path": "src.ui.windows.cargar_datos.view", 
             "class_name": "ModuleView"
         },
         "Analizar Ciclos": {
-            "module_path": "src.ui.mod_analizar_ciclos.view",
+            "module_path": "src.ui.windows.analizar_ciclos.view",
             "class_name": "ModuleView"
         },
         "Programas Ferlo": {
-            "module_path": "src.ui.mod_programas_ferlo.view",
+            "module_path": "src.ui.windows.programas_ferlo.view",
             "class_name": "ModuleView"
         },
         "Configuración": {
-            "module_path": "src.ui.mod_configuracion.view",
+            "module_path": "src.ui.windows.configuracion.view",
             "class_name": "ModuleView"
         },
         "Ayuda": {
-            "module_path": "src.ui.mod_ayuda.view",
+            "module_path": "src.ui.windows.ayuda.view",
             "class_name": "ModuleView"
         }
     }
