@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QHBoxLayout, QWidget, QStackedWidget
 from core.router import Router
 from modules.base_module import BaseModule
 from ui.sidebar import Sidebar
-from ui.styles import app_stylesheet
+from src.style import Style
 
 
 class MainWindow(QWidget):
@@ -18,8 +18,6 @@ class MainWindow(QWidget):
         self._connect_signals()
 
     def _init_ui(self) -> None:
-        self.setStyleSheet(app_stylesheet())
-
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
@@ -28,6 +26,8 @@ class MainWindow(QWidget):
         layout.addWidget(self._stack, 1)
 
         self.sidebar.load_modules(list(self.router.registered_modules()))
+
+        Style.widget.apply(self)
 
     def _connect_signals(self) -> None:
         self.sidebar.module_selected.connect(self.router.navigate_to)

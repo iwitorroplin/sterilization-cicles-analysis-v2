@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QButtonGroup, Q
 from PySide6.QtCore import Qt, Signal
 
 from modules.base_module import BaseModule
-from ui.styles import palette
+from src.style import Style
 
 
 class Sidebar(QWidget):
@@ -26,7 +26,7 @@ class Sidebar(QWidget):
 
         title = QLabel("Analítica de ciclos")
         title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet("font-size: 16px; font-weight: 700; color: %s;" % palette.SECONDARY)
+        Style.label.title(title)
         layout.addWidget(title)
 
         separator = QFrame()
@@ -45,19 +45,17 @@ class Sidebar(QWidget):
             button.setCheckable(True)
             button.setProperty("module_slug", module.slug())
             button.clicked.connect(lambda checked, slug=module.slug(): self.module_selected.emit(slug))
+            button.setCursor(Qt.PointingHandCursor)
+
+            Style.button.secondary(button)
             button.setStyleSheet(
-                """
-                QPushButton {
-                    text-align: left;
-                    padding: 10px 12px;
-                    border-radius: 8px;
-                    background: transparent;
-                    color: %s;
-                }
-                QPushButton:hover { background: %s; }
-                QPushButton:checked { background: %s; color: white; font-weight: 600; }
-                """
-                % (palette.TEXT, palette.BORDER, palette.PRIMARY)
+                button.styleSheet()
+                + "\n".join(
+                    [
+                        "QPushButton { text-align: left; padding: 10px 12px; }",
+                        "QPushButton:checked { font-weight: 600; }",
+                    ]
+                )
             )
 
             self._button_group.addButton(button)

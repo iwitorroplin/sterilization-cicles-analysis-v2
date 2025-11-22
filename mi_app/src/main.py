@@ -1,5 +1,14 @@
 import sys
+from pathlib import Path
+
 from PySide6.QtWidgets import QApplication
+
+# Habilitar el uso de la carpeta "style" compartida en src
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
+
+from src.style import Style
 
 from core.app import Application
 from core.router import Router
@@ -14,6 +23,8 @@ from modules.configuracion.controller import ConfigController
 
 def main() -> None:
     app = QApplication(sys.argv)
+    app.setApplicationDisplayName("Analítica de ciclos de esterilización")
+
     session = Session()
     router = Router()
 
@@ -26,6 +37,7 @@ def main() -> None:
     router.register_module(ConfigController(session))
 
     main_window = Application(router, session)
+    Style.apply_global(app)
     main_window.show()
 
     # Primer módulo
