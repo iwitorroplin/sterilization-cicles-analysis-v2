@@ -1,0 +1,11 @@
+from __future__ import annotations
+
+PRIMARY = "#0A84FF"
+SECONDARY = "#0B3954"
+BACKGROUND = "#F5F7FB"
+SURFACE = "#FFFFFF"
+BORDER = "#D8DFEA"
+TEXT = "#1F2933"
+MUTED = "#5F6B7A"
+ACCENT = "#2ECC71"
+WARNING = "#FFC857"
