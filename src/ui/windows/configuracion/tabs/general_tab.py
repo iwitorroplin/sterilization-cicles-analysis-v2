@@ -1,14 +1,10 @@
 # src/ui/mod_configuracion/general_tab.py
 
-from copy import deepcopy
-
 from PySide6.QtWidgets import (
-    QFileDialog,
     QLabel,
     QComboBox,
     QHBoxLayout,
     QLineEdit,
-    QMessageBox,
     QPushButton,
     QSizePolicy,
     QVBoxLayout,
@@ -29,12 +25,7 @@ class GeneralTab(QWidget, GeneralLogicMixin):
     def __init__(self):
         super().__init__()
 
-        # Valores por defecto
-        self.default_config = deepcopy(default_app_config)
-
-        # Copias internas
-        self.current_config = deepcopy(self.default_config)
-        self.last_loaded_config = deepcopy(self.default_config)
+        self.setup_config_state(default_app_config)
 
         self._setup_ui()
         self.initialize()
