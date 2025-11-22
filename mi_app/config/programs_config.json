@@ -1,0 +1,13 @@
+{
+  "programs": [
+    {
+      "program_id": 1,
+      "program_name": "Programa Por Defecto",
+      "product_name": "Producto Base",
+      "format": "Formato Estándar",
+      "target_time": 50.0,
+      "target_temperature": 110.0,
+      "enabled": true
+    }
+  ]
+}

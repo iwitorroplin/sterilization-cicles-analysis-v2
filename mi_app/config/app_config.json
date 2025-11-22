@@ -1,0 +1,13 @@
+{
+  "general": {
+    "printer": "Predeterminada",
+    "data_ferlo_dir": "C:/Users/Usuario/Desktop/ferlo",
+    "raw_data_ferlo_dir": "C:/Users/Usuario/Desktop/ferlo/raw",
+    "process_data_ferlo_dir": "C:/Users/Usuario/Desktop/ferlo/process"
+  },
+  "cycle_detector": {
+    "temperature": 70.0,
+    "auto": true,
+    "bad_value": "<<<<<<<<"
+  }
+}
