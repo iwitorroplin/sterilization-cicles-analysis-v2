@@ -25,6 +25,12 @@ class GeneralLogicMixin:
     GENERAL_KEY = "general"
     CYCLE_KEY = "cycle_detector"
 
+    def setup_config_state(self, base_config):
+        """Initialize default and tracking copies for configuration handling."""
+        self.default_config = deepcopy(base_config)
+        self.current_config = deepcopy(self.default_config)
+        self.last_loaded_config = deepcopy(self.default_config)
+
     def initialize(self):
         """Carga la configuración básica en los campos de la pestaña."""
         loaded_config = AppSettings.get_basic_config() or {}
@@ -162,6 +168,13 @@ class GeneralLogicMixin:
         if errors:
             QMessageBox.warning(self, "Errores", "\n".join(errors))
             return
+
+        temp_value = self.current_config[self.CYCLE_KEY][
+            "temperature_cycle_detector"
+        ]
+        self.current_config[self.CYCLE_KEY]["temperature_cycle_detector"] = (
+            float(temp_value)
+        )
 
         AppSettings.set_basic_config(self.current_config)
         self.last_loaded_config = deepcopy(self.current_config)
